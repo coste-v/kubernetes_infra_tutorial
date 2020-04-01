@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: tutorial-storage
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 0.1M
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/tmp/kubernetes_infra_tutorial"  # directory on local machine

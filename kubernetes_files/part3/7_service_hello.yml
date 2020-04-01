@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8081
+    protocol: TCP
+    targetPort: 5000  # port expose by our hello api
+  selector:
+    app: hello-api-deployed

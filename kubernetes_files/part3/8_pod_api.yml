@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-api
+  labels:
+    app: hello-api
+spec:
+  containers:
+    - name: hello-api
+      image: hello-api:latest
+      imagePullPolicy: Never
+      ports:
+        - containerPort: 5000 # same port as app

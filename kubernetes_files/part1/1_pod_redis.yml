@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-server
+  labels:
+    app: redis  # to make the service work
+spec:
+  containers:
+    - name: redis-server
+      image: redis:alpine3.10
