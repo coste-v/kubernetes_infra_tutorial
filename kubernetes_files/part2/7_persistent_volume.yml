@@ -3,10 +3,10 @@ kind: PersistentVolume
 metadata:
   name: tutorial-storage
 spec:
-  storageClassName: manual
+  storageClassName: youhou
   capacity:
     storage: 0.1M
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
-    path: "/tmp/kubernetes_infra_tutorial"  # directory on local machine
+    path: "/tmp/kubernetes_infra_tutorial"  # our local directory

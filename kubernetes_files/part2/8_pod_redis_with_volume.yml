@@ -5,14 +5,15 @@ metadata:
   labels:
     app: redis # to make the service work
 spec:
-  volumes:
-    - name: storage
-      persistentVolumeClaim:
-        claimName: tutorial-storage-claim
   containers:
     - name: redis-server
       image: redis:alpine3.10
 
       volumeMounts:
-        - mountPath: "/data"
-          name: storage
+        - mountPath: "/data"  # on the pod
+          name: my-redis-storage
+
+  volumes:
+    - name: my-redis-storage
+      persistentVolumeClaim:
+        claimName: tutorial-storage-claim

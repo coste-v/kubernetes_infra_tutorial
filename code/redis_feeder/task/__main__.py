@@ -27,8 +27,8 @@ if __name__ == "__main__":
     environment = os.getenv("ENVIRONMENT", "dev")
 
     redis = Redis(
-        host="redis-server", # Same host
-        port=6379
+        host="redis-service",  # Which host to find the redis-server
+        port=4321  # Which port to find the redis-server
     )
 
     try:

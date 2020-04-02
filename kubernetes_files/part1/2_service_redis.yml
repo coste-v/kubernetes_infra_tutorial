@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis-server
+  name: redis-service  # The host ! Same key in python
 spec:
   ports:
-  - port: 6379
-    targetPort: 6379
+  - port: 4321  # The port ! Same as in python
+    targetPort: 6379 # The default redis port
   selector:
-    app: redis
+    app: redis  # Which pods are concerned

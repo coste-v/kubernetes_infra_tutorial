@@ -2,11 +2,9 @@
 
 In this tutorial we are going to build this very simple workflow on Kubernetes and automate it using Airflow.
 
-![Tutorial Use Case](images/UseCase.png)
+![Tutorial Use Case](images/intro/use-case.png)
 
 ## Introduction
-
-
 
 As you can see, we have 3 different pieces of software :
 
@@ -20,7 +18,7 @@ We will slowly build those 3 building blocks using a local version of Kubernetes
 
 This is our expected result :
 
-![Expected Result](images/ExpectedResult.png)
+![Expected Result](images/intro/expected-result.png)
 
 ## Prerequisite
 
@@ -34,13 +32,11 @@ To build this tutorial, I run the test on Docker Desktop 2.2.0.4. for Mac OS.
 
 ## Table of content
 
-### [Part 1 : cluster set up, redis server and redis feeder](Part1.md)
+### [Part 1: cluster set up, redis server and redis feeder](Part1.md)
 
-### Part 2 : consolidate redis server with data persistence on a volume
+### [Part 2: deploy the dummy API and consolidate the redis server](Part2.md)
 
-### Part 3 : deploy the dummy api
-
-### Part 4 : introducing the mighty Airflow
+### [Part 3: introducing the mighty Airflow](Part3.md)
 
 ### Part 5 : going a bit further
 

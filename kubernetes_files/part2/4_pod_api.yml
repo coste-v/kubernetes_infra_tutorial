@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dummy-api
+  labels:
+    app: api-label
+spec:
+  containers:
+    - name: dummy-api
+      image: dummy-api:latest
+      imagePullPolicy: Never

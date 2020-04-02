@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cron-code-test
+  name: redis-feeder
 spec:
   containers:
-    - name: cron-code-test
-      image: cron_code:latest
-      imagePullPolicy: Never    
-      args: ["Cerebral", "Bore"]
+    - name: redis-feeder
+      image: redis_feeder:latest
+      imagePullPolicy: Never  # Use local image
+      args: ["Cerebral", "Bore"]  # Random arguments
       env:
         - name: ENVIRONMENT
-          value: "preproduction"
-  restartPolicy: OnFailure
+          value: "preproduction"  # Environment variable
+  restartPolicy: OnFailure  # To avoid Kubernetes to keep the Pod retrying

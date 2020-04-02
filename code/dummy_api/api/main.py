@@ -3,8 +3,8 @@ from redis import Redis
 
 app = Flask(__name__)
 redis = Redis(
-    host="redis-server",
-    port=6379
+    host="redis-service",  # Which host to find the redis-server
+    port=4321  # Which port to find the redis-server
 )
 
 @app.route("/")

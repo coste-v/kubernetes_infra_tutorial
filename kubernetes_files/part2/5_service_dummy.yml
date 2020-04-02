@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy-service
+spec:
+  type: LoadBalancer  # To expose the service externally 
+  ports:
+  - port: 8081  # The service port
+    targetPort: 3894  # port expose by the api (check the dummy api Dockerfile)
+  selector:
+    app: api-label

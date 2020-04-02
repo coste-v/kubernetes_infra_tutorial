@@ -3,9 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: tutorial-storage-claim
 spec:
-  storageClassName: manual
+  storageClassName: youhou  # to label our storage class
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 0.01M
