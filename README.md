@@ -1,10 +1,12 @@
-# Kubernetes tutorial for beginners
+# Kubernetes hands on tutorial
+
+In this tutorial we are going to build this very simple workflow on Kubernetes and automate it using Airflow.
+
+![Tutorial Use Case](images/UseCase.png)
 
 ## Introduction
 
-In this tutorial we are going to build this very simple workflow :
 
-![Tutorial Use Case](images/UseCase.png)
 
 As you can see, we have 3 different pieces of software :
 
@@ -17,21 +19,22 @@ As you can see, we have 3 different pieces of software :
 We will slowly build those 3 building blocks using a local version of Kubernetes. We'll then use an external version of Airflow running on a docker container **out of the kubernetes cluster** to trigger the redis feeder.
 
 This is our expected result :
+
 ![Expected Result](images/ExpectedResult.png)
 
 ## Prerequisite
 
 For this tutorial, I'll assume that you have :
 
-- a local kubernetes cluster (docker desktop, minikube, ...)
+- a local kubernetes cluster (docker desktop, minikube, ...). See [here](https://medium.com/containers-101/local-kubernetes-for-mac-minikube-vs-docker-desktop-f2789b3cad3a).
 
-- K9s as a nice to have (some of my screenshots will display this tool)
+- K9s as a nice to have (some of my screenshots will display this tool).See [here](https://github.com/derailed/k9s).
 
 To build this tutorial, I run the test on Docker Desktop 2.2.0.4. for Mac OS.
 
 ## Table of content
 
-### Part 1 : cluster set up, redis server and redis feeder
+### [Part 1 : cluster set up, redis server and redis feeder](Part1.md)
 
 ### Part 2 : consolidate redis server with data persistence on a volume
 
