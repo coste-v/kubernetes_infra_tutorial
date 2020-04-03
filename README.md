@@ -10,9 +10,9 @@ In this tutorial we are going to build a very simple workflow on Kubernetes and 
 
 - a **redis server**, storing the first name, last name and environment pushed by the feeder
 
-- a simple **dummy api**, reading the first name, last name and environment on the redis server and displaying it with Flask
+- a **dummy api**, reading the first name, last name and environment on the redis server and displaying it with Flask
 
-We will slowly build this simple workflow on a local Kubernetes cluster. Once done, we'll then use an external instance of Airflow running on a docker container **out of the kubernetes cluster** to trigger the redis feeder.
+We will slowly build this simple workflow on a local Kubernetes cluster. Once done, we'll then use an external instance of Airflow running on a docker container **out of the kubernetes cluster** to trigger our redis feeder.
 
 Hopefully, this will be our expected result :
 
@@ -32,25 +32,12 @@ To build this tutorial used Docker Desktop 2.2.0.4. for Mac OS with its built in
 
 I organized this tutorial in the following way :
 
-### [Part 1: cluster set up, redis server and redis feeder](Part1.md)
+### [Part 1: cluster setup, redis server and redis feeder](Part1.md)
 
 ### [Part 2: deploy the dummy API and consolidate the redis server](Part2.md)
 
 ### [Part 3: introducing the mighty Airflow](Part3.md)
 
-### Part 5 : going a bit further
+### [Part 4 : going a further](Part4.md)
 
 Let's roll up our sleeves and build our cluster !
-
-# References
-https://medium.com/@itunpredictable/apache-airflow-on-docker-for-complete-beginners-cf76cf7b2c9a
-http://michal.karzynski.pl/blog/2017/03/19/developing-workflows-with-apache-airflow/
-https://github.com/puckel/docker-airflow/issues/261
-https://varlogdiego.com/airflow-kubernetes-operator
-
-
-https://airflow.apache.org/docs/stable/_api/airflow/contrib/operators/kubernetes_pod_operator/index.html
-
-
-# Flask on Kube
-https://kubernetes.io/blog/2019/07/23/get-started-with-kubernetes-using-python/

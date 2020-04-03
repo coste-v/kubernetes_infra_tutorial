@@ -1,4 +1,4 @@
-# Part 1 : cluster set up, redis server and redis feeder
+# Part 1 : cluster setup, redis server and redis feeder
 
 ## Objectives
 
@@ -7,7 +7,7 @@
 - understanding Pods and Service
 - deploy local container on kubernetes
 
-## A. Cluster set up
+## A. Cluster setup
 
 ### Discovering the cluster
 
@@ -25,9 +25,9 @@ Here, we can see the Kubernetes master single node and the KubeDNS (which we won
 
 ### Namespace
 
-To start our tutorial, we are going to create a namespace in our single node cluster. A namespace is an isolated space in the cluster. We'll experiment in the namespace, and once done, we can delete it with all its ressources, leaving our cluster clean.
+To start our tutorial, we are going to create a namespace in our single node cluster. A namespace is an isolated space in the cluster. We'll experiment in the namespace, and once done, we can delete it with all its resources, leaving our cluster clean.
 
-To create a namepsace, we are going to run the following command :
+To create a namespace, we are going to run the following command :
 
 ```bash
 kubectl apply -f kubernetes_files/part1/0_namespace_tutorial.yml
@@ -54,7 +54,7 @@ which outputs :
 
 ![Get namespace](images/part1/get-namespace.png)
 
-We can see our that our tutorial-namespace has been created.
+We can see that our tutorial-namespace has been created.
 
 ### Context
 
@@ -76,7 +76,7 @@ To see if our context is created, let's run the following command :
 kubectl config view
 ```
 
-Wich outputs :
+Which outputs :
 
 ![context](images/part1/context.png)
 
@@ -94,7 +94,7 @@ Which outputs "docker-desktop" in my case. Let's change our context with the fol
 kubectl config use-context tutorial-context
 ```
 
-Now, everytime we'll run a kubectl command, it will apply it to our current-context, using our tutorial-namespace. Great ! Let's move on and start playing with our cluster.
+Now, every time we'll run a kubectl command, it will apply it to our current-context, using our tutorial-namespace. Great ! Let's move on and start playing with our cluster.
 
 ## B. Starting a redis server
 
@@ -119,13 +119,13 @@ spec:
 
 Let's explain a bit the configuration !
 
-This yaml file describe a Pod resource. We need to give the ressource a name and optionnally, we can give it some labels.
+This yaml file describe a Pod resource. We need to give the resource a name and optionally, we can give it some labels.
 
 Here, we chose to label our pod with an app label having the value "redis". This will be useful a bit later.
 
-Finally, we have some info about the containers we would like to run in our Pod. Here we are running a single container instanciating a redis:alpine3.10 image.
+Finally, we have some info about the containers we would like to run in our Pod. Here we are running a single container instantiating a redis:alpine3.10 image.
 
-Let's run this ressource and see what happens !
+Let's run this resource and see what happens !
 
 ```bash
 kubectl apply -f kubernetes_files/part1/1_pod_redis.yml
@@ -145,7 +145,7 @@ And once inside our Pod:
 
 ![inside-redis-server](images/part1/inside-redis-server.png)
 
-Awesome ! Everything seems to work as expected ! Next step : use the redis_feeder code to populate the redis data base.
+Awesome ! Everything seems to work as expected ! Next step : use the redis_feeder code to populate the redis database.
 
 ## C. The redis feeder
 
@@ -273,7 +273,7 @@ spec:
     app: redis  # Which pods are concerned
 ```
 
-What happens here ? Kubernetes will create a resource that will allow **any Pods** with the "redis" label (our redis-server has it !) to be accessible with the "redis-service" host name. The service will also redirect the trafic on port 4321 to the port 6379 of any Pods with the "redis" label.
+What happens here ? Kubernetes will create a resource that will allow **any Pods** with the "redis" label (our redis-server has it !) to be accessible with the "redis-service" host name. The service will also redirect the traffic on port 4321 to the port 6379 of any Pods with the "redis" label.
 
 Let's create this service :
 

@@ -8,7 +8,7 @@
 
 ## A. Setting up Airflow on Docker
 
-Airflow is an incredible tool ! It helps you manage complex workflow. I won't present the tool too much. Michal Karzynski did an awesome job at presenting Airflow and explaining how it work on his [blog](http://michal.karzynski.pl/blog/2017/03/19/developing-workflows-with-apache-airflow/). It definelty worth reading if you're not yet familiar with Airflow. Thank you Michal !
+Airflow is an incredible tool ! It helps you manage complex workflow. I won't present the tool too much. Michal Karzynski did an awesome job at presenting Airflow and explaining how it work on his [blog](http://michal.karzynski.pl/blog/2017/03/19/developing-workflows-with-apache-airflow/). It definitely worth reading if you're not yet familiar with Airflow. Thank you Michal !
 
 For our tutorial, let's use an awesome Airflow image and customize it for our need. We'll use the [puckel image](https://github.com/puckel/docker-airflow). But we need to tweak it a little bit for our use. Remember ? We would like to user this Airflow image to trigger our redis feeder on our local Kubernetes cluster.
 
@@ -23,7 +23,7 @@ RUN pip install apache-airflow[kubernetes] # to install the extensions that we n
 USER airflow
 ```
 
-It's almost the same as the original one, we juste added an install of the kubernetes extensions.
+It's almost the same as the original one, we just added an install of the kubernetes extensions.
 
 Let's build it :
 
@@ -105,7 +105,7 @@ Ok let's run the dag ! As Michal said :
 
 - first turn the workflow on
 - then click the Trigger Dag
-- an finally, click on Graph View !
+- and finally, click on Graph View !
 
 ![michal-karzynski-blog-picture](images/part3/hello-world-start.png)
 
@@ -117,3 +117,15 @@ Now if you refresh our API http://localhost:8081/ you should see the values of o
 ![final-result](images/part3/final-result.png)
 
 ![magic](images/part2/magic.jpeg)
+
+## C. References
+
+- [A great Airflow tutorial !](http://michal.karzynski.pl/blog/2017/03/19/developing-workflows-with-apache-airflow/)
+
+- [Comprehensive guide of the Airflow puckel image](https://medium.com/@itunpredictable/apache-airflow-on-docker-for-complete-beginners-cf76cf7b2c9a)
+
+- [Customize your Airflow puckel image](https://github.com/puckel/docker-airflow/issues/261)
+
+- [A very complete KubernetesPodOperator example](https://varlogdiego.com/airflow-kubernetes-operator)
+
+- [The KubernetesPodOperator technical doc](https://airflow.apache.org/docs/stable/_api/airflow/contrib/operators/kubernetes_pod_operator/index.html)

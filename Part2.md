@@ -95,7 +95,7 @@ Let's look on k9s our services :
 We can see that the dummy-service has an external ip on localhost. Let's connect to http://localhost:8081/ to see some magic happen :
 ![dummy-service](images/part2/kubernetes-dummy-api.png)
 
-Yay ! The same value that we pushed in the redis server data base !
+Yay ! The same value that we pushed in the redis server database !
 
 ## B. Consolidate our redis server
 
@@ -140,7 +140,7 @@ spec:
       storage: 0.01M
 ```
 
-Here we create a resource that will allow the pods using it to read or write up to 0.01 Mega. The pods only know about the volume claim. And, behind the scene, the volume claim will choose among available volumes, the on with the right storageClassName.
+Here we create a resource that will allow the pods using it to read or write up to 0.01 Mega. The pods only know about the volume claim. And, behind the scene, the volume claim will choose among available volumes, the one with the right storageClassName.
 
 Let's create the volume claim :
 
@@ -148,7 +148,7 @@ Let's create the volume claim :
 kubectl apply -f kubernetes_files/part2/6_persistent_volume_claim.yml
 ```
 
-We know need to create a presistent volume backing the volume claim. Here is the resource file :
+We know need to create a persistent volume backing the volume claim. Here is the resource file :
 
 ```yml
 # kubernetes_files/part2/7_persistent_volume.yml
@@ -247,3 +247,9 @@ Result:
 ![dummy-service](images/part2/kubernetes-dummy-api.png)
 
 ![magic](images/part2/magic.jpeg)
+
+## C. References
+
+- [Python Flask on Kubernetes](https://kubernetes.io/blog/2019/07/23/get-started-with-kubernetes-using-python/)
+
+- [Persistent volume tutorial](https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/)
