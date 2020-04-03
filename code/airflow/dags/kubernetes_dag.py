@@ -17,22 +17,22 @@ dummy_operator = DummyOperator(task_id='dummy_task', retries=3, dag=dag)
 
 kube_operator = KubernetesPodOperator(
     task_id='kube_task', 
-    config_file='/home/airflow/docker_desktop_config',
-    cluster_context="tutorial-context",
+    config_file='/home/airflow/docker_desktop_config', # where we stored our kubernetes config file
+    cluster_context="tutorial-context", # our context
     in_cluster=False,
 
 
-    namespace='tutorial-namespace',
-    image="cron_code:latest",
-    name="cron-code-test",
-    image_pull_policy='Never',
-    arguments=["Defeated", "Sanity"],
+    namespace='tutorial-namespace', # our namespace
+    image="redis_feeder:latest", # our local image
+    name="redis-feeder-airflow", # our pod name
+    image_pull_policy='Never', # to use local image
+    arguments=["Defeated", "Sanity"], # some really cool arguments !
 
     env_vars={
         'ENVIRONMENT': 'production'
     },
 
-    is_delete_operator_pod=True,
+    is_delete_operator_pod=True, # to delete the operator once done
     get_logs=True,
     dag=dag
 )

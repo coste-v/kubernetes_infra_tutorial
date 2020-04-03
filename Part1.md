@@ -275,6 +275,12 @@ spec:
 
 What happens here ? Kubernetes will create a resource that will allow **any Pods** with the "redis" label (our redis-server has it !) to be accessible with the "redis-service" host name. The service will also redirect the trafic on port 4321 to the port 6379 of any Pods with the "redis" label.
 
+Let's create this service :
+
+```bash
+kubectl apply -f kubernetes_files/part1/2_service_redis.yml
+```
+
 Let's run again our redis_feeder Pod ! But before that, we need to delete the existing one (it terminated but still exists !). This is a little pain in the butt : each time you run a Pod, you need to delete it to run another "version" of it.
 
 To delete the Pod :

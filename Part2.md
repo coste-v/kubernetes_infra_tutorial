@@ -30,7 +30,6 @@ You should get the following :
 
 Again, this is "normal". Let's see the python code :
 
-
 If it's working fine, let's move on to our deployment ! First, let's have a look at our deployment file :
 
 ```yml
@@ -84,6 +83,12 @@ spec:
 
 This service is a bit different from the redis-service one : we can see a "LoadBalancer" type. This type makes a service accessible externally. By default, a service is only accessible inside a cluster (our redis-service for instance).
 
+Let's build the service :
+
+```bash
+kubectl apply -f kubernetes_files/part2/5_service_dummy.yml
+```
+
 Let's look on k9s our services :
 ![dummy-service](images/part2/dummy-service.png)
 
@@ -108,7 +113,7 @@ May he rest in peace... And create a new Pod to replace him :
 kubectl apply -f kubernetes_files/part1/1_pod_redis.yml
 ```
 
-If we go back to http://localhost:8082/, everything is gone :
+If we go back to http://localhost:8081/, everything is gone :
 ![broken-redis-server](images/part2/broken-redis-server.png)
 
 Wouldn't it be nice to back up our redis data to have them back when we replace our redis-server Pod ?
