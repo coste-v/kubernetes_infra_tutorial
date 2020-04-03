@@ -38,6 +38,6 @@ I organized this tutorial in the following way :
 
 ### [Part 3: introducing the mighty Airflow](Part3.md)
 
-### [Part 4 : going a further](Part4.md)
+### [Part 4 : going further](Part4.md)
 
 Let's roll up our sleeves and build our cluster !
