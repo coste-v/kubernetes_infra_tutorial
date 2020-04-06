@@ -2,14 +2,14 @@
 
 ## Objectives
 
-- setting up a testing context on our cluster
+- set up a testing context on our cluster
 - get familiar with kubectl command
-- understanding Pods and Service
+- understand Pods and Service
 - deploy local container on kubernetes
 
 ## A. Cluster setup
 
-### Discovering the cluster
+### a) Discovering the cluster
 
 Docker desktop allows you to create a single node kubernetes cluster. Once your cluster is up and running, we can check its configuration using :
 
@@ -23,15 +23,11 @@ Which outputs :
 
 Here, we can see the Kubernetes master single node and the KubeDNS (which we won't cover here).
 
-### Namespace
+### b) Namespace
 
-To start our tutorial, we are going to create a namespace in our single node cluster. A namespace is an isolated space in the cluster. We'll experiment in the namespace, and once done, we can delete it with all its resources, leaving our cluster clean.
+To start our tutorial, we are going to create a namespace in our single node cluster. A namespace is an isolated space in the cluster. We can experiment in the namespace, and once done, we can delete it with all its resources, leaving our cluster clean. It's a very convenient way to manage interdependent resources.
 
-To create a namespace, we are going to run the following command :
-
-```bash
-kubectl apply -f kubernetes_files/part1/0_namespace_tutorial.yml
-```
+To create a namespace, we are going use this configuration file :
 
 ```yml
 # kubernetes_files/part1/0_namespace_tutorial.yml
@@ -44,33 +40,39 @@ metadata:
     name: test
 ```
 
-To check if everything is fine, we can run the following command :
+and run the following command :
+
+```bash
+kubectl apply -f kubernetes_files/part1/0_namespace_tutorial.yml
+```
+
+Let's see if everything worked as expected by running the following :
 
 ```bash
 kubectl get namespace
 ```
 
-which outputs :
+This should outputs :
 
 ![Get namespace](images/part1/get-namespace.png)
 
-We can see that our tutorial-namespace has been created.
+And we can see that our tutorial-namespace has been created ! That's great !
 
-### Context
+### c) Context
 
-To use our namespace automatically, we are going to create a context. This part could be skipped because we could pass an extra parameters to the kubeclt command to specify in which namespace we want to run it. For instance :
+To use our namespace automatically, we are going to create a context. In our scenario, creating a context is optional : we could pass an extra parameters to the kubeclt command to specify in which namespace we want to run it. For instance :
 
 ```bash
 kubectl apply -f file.yml --namespace=tutorial-namespace
 ```
 
-A Kubernetes context represents the triplet Cluster + User + Namespace. On docker desktop, we have one cluster (docker-desktop) and one user (docker-desktop). We are going to use them with our namespace to create our tutorial-context :
+However, to avoid this extra argument on each kubectl command, we will create a context. A Kubernetes context represents a triplet : Cluster + User + Namespace. On docker desktop, we have one cluster (docker-desktop) and one user (docker-desktop). We are going to use them with our namespace to create our tutorial-context :
 
 ```bash
 kubectl config set-context tutorial-context --namespace=tutorial-namespace --cluster=docker-desktop --user=docker-desktop
 ```
 
-To see if our context is created, let's run the following command :
+Let's see if our context is correctly created by running:
 
 ```bash
 kubectl config view
@@ -80,27 +82,27 @@ Which outputs :
 
 ![context](images/part1/context.png)
 
-We can see our tutorial-context
+We can see our tutorial-context !
 
-We now need to switch our current context to the one we just created. Let's see our current context :
+Last but not least, we'll switch our current context to the one we just created. Let's see what is our current context :
 
 ```bash
 kubectl config current-context
 ```
 
-Which outputs "docker-desktop" in my case. Let's change our context with the following command :
+On docker-desktop, this should outputs "docker-desktop". Let's change our context to the one we just created:
 
 ```bash
 kubectl config use-context tutorial-context
 ```
 
-Now, every time we'll run a kubectl command, it will apply it to our current-context, using our tutorial-namespace. Great ! Let's move on and start playing with our cluster.
+Having done that, every time we'll run a kubectl command, it will apply it to our current-context, using our tutorial-namespace. Great ! Let's move on and start playing with our cluster !
 
 ## B. Starting a redis server
 
-We'll now start our redis server. For the sake of comprehension, we'll run almost everything using the notion of Pod. We'll move on later to more complicated concept.
+We'll now start our redis server. For the sake of comprehension, we'll run almost most of our resources using the Pod kind. A Pod is the atomic element in a kubernetes cluster and the simplest to understand. We'll move on more complicated concept later in our tutorial.
 
-A Pod is the atomic element in a kubernetes cluster. Our first pod will simply run a redis server. Here is what the configuration file looks like :
+Our first pod will run a redis server. Here is what the configuration file looks like :
 
 ```yml
 # kubernetes_files/part1/1_pod_redis.yml
@@ -117,31 +119,29 @@ spec:
       image: redis:alpine3.10
 ```
 
-Let's explain a bit the configuration !
+Let's explain a bit this configuration ! This yaml file describe a Pod resource. Kubernetes with use the describtion provided by this file to create our Pod. Kubernetes expects the resource to have a name (redis-server). Optionnaly, we can give it some labels.
 
-This yaml file describe a Pod resource. We need to give the resource a name and optionally, we can give it some labels.
+Here, we chose to label our pod with an app label having the value "redis". Labels work like flags : by labelling resources with the same value we make Kubernetes administrate them coherently. This first label will be useful a little bit later, you'll see !
 
-Here, we chose to label our pod with an app label having the value "redis". This will be useful a bit later.
+Finally, we have some information about the containers we would like to run in our Pod. Here we are running a single container instantiating a redis:alpine3.10 image.
 
-Finally, we have some info about the containers we would like to run in our Pod. Here we are running a single container instantiating a redis:alpine3.10 image.
-
-Let's run this resource and see what happens !
+Let's create this resource :
 
 ```bash
 kubectl apply -f kubernetes_files/part1/1_pod_redis.yml
 ```
 
-If we go on K9s, we can see our redis server up and running :
+To see what happened, let's go on K9s:
 
 ![redis-server](images/part1/redis-server.png)
 
-Ok, let's interact with our Pod to get a shell inside it and run some redis command :
+As expected, we can see that our redis server is up and running. We can interact with our Pod by getting a shell inside it:
 
 ```bash
 kubectl exec -it redis-server -- /bin/sh
 ```
 
-And once inside our Pod:
+Once inside our Pod let's run some simple redis command:
 
 ![inside-redis-server](images/part1/inside-redis-server.png)
 
@@ -304,3 +304,5 @@ kubectl exec -it redis-server -- /bin/sh
 ![inside-redis-server2](images/part1/inside-redis-server2.png)
 
 Awesome ! We are now done for part 1 ! Let's move on to part 2 and try to consolidate our redis server !
+
+## C. Resources

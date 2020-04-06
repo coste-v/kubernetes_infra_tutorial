@@ -7,7 +7,7 @@
 
 ## A. Deploy an API on kubernetes
 
-### Building the image and deploying the Pod
+### a) Building the image and deploying the Pod
 
 Let's deploy our dummy api on our cluster. As in Part1.md, we'll first need to build a local image of our dummy_api.
 
@@ -61,7 +61,7 @@ and watch our dummy-api Pod through K9s :
 
 The next thing to do to make our API accessible is to create a Service !
 
-### Create the Service
+### b) Create the Service
 
 Let's have a look at the service definition file :
 
@@ -248,7 +248,7 @@ Result:
 
 ![magic](images/part2/magic.jpeg)
 
-## C. References
+## D. References
 
 - [Python Flask on Kubernetes](https://kubernetes.io/blog/2019/07/23/get-started-with-kubernetes-using-python/)
 

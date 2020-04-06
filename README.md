@@ -12,9 +12,9 @@ In this tutorial we are going to build a very simple workflow on Kubernetes and 
 
 - a **dummy api**, reading the first name, last name and environment on the redis server and displaying it with Flask
 
-We will slowly build this simple workflow on a local Kubernetes cluster. Once done, we'll then use an external instance of Airflow running on a docker container **out of the kubernetes cluster** to trigger our redis feeder.
+We will slowly build this simple workflow on a local Kubernetes cluster. Once done, we'll use an external instance of Airflow running on a docker container **out of the kubernetes cluster** to trigger our redis feeder.
 
-Hopefully, this will be our expected result :
+If everything goes smoothly and works as I expect, we should get the following environment :
 
 ![Expected Result](images/intro/expected-result.png)
 
@@ -22,22 +22,24 @@ Hopefully, this will be our expected result :
 
 For this tutorial, I'll assume that you have :
 
-- a local kubernetes cluster (docker desktop, minikube, ...). See [here](https://medium.com/containers-101/local-kubernetes-for-mac-minikube-vs-docker-desktop-f2789b3cad3a).
+- a local kubernetes cluster (docker desktop, minikube, ...). See [here](https://medium.com/containers-101/local-kubernetes-for-mac-minikube-vs-docker-desktop-f2789b3cad3a),
+
+- a local version of my code,
 
 - K9s as a nice to have (some of my screenshots will display this tool).See [here](https://github.com/derailed/k9s).
 
-To build this tutorial used Docker Desktop 2.2.0.4. for Mac OS with its built in Kubernetes cluster.
+To build this tutorial I used Docker Desktop 2.2.0.4. for Mac OS with its built in Kubernetes cluster.
 
 ## Table of content
 
-I organized this tutorial in the following way :
+The tutorial is organized in the following way :
 
 ### [Part 1: cluster setup, redis server and redis feeder](Part1.md)
 
 ### [Part 2: deploy the dummy API and consolidate the redis server](Part2.md)
 
-### [Part 3: introducing the mighty Airflow](Part3.md)
+### [Part 3: introducing Airflow](Part3.md)
 
-### [Part 4 : going further](Part4.md)
+### [Part 4: going further](Part4.md)
 
 Let's roll up our sleeves and build our cluster !

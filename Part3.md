@@ -1,4 +1,4 @@
-# Part 3: introducing the mighty Airflow
+# Part 3: introducing Airflow
 
 ## Objectives
 
@@ -60,7 +60,7 @@ Which outputs :
 
 - I choose to store my local kubernetes config file in the following folder (on the docker container): */home/airflow/docker_desktop_config my-airflow webserver*
 
-If everything worked as expected, please behold the mighty Airflow: http://localhost:8080/
+If everything worked as expected, behold the mighty Airflow: http://localhost:8080/
 
 ![mighty-airflow](images/part3/mighty-airflow.png)
 
