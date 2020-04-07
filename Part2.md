@@ -26,6 +26,7 @@ docker run -d -it -p 8082:3894 dummy-api
 To check that everything is fine, let's go to : http://localhost:8082/
 
 You should get the following :
+
 ![context](images/part2/local-dummy-api.png)
 
 Again, this is "normal". Let's see the python code :
@@ -93,6 +94,7 @@ Let's look on k9s our services :
 ![dummy-service](images/part2/dummy-service.png)
 
 We can see that the dummy-service has an external ip on localhost. Let's connect to http://localhost:8081/ to see some magic happen :
+
 ![dummy-service](images/part2/kubernetes-dummy-api.png)
 
 Yay ! The same value that we pushed in the redis server database !
@@ -114,6 +116,7 @@ kubectl apply -f kubernetes_files/part1/1_pod_redis.yml
 ```
 
 If we go back to http://localhost:8081/, everything is gone :
+
 ![broken-redis-server](images/part2/broken-redis-server.png)
 
 Wouldn't it be nice to back up our redis data to have them back when we replace our redis-server Pod ?
@@ -230,6 +233,7 @@ kubectl apply -f kubernetes_files/part1/3_pod_feeder.yml
 ```
 
 At this stage, the http://localhost:8082/ should return the following :
+
 ![dummy-service](images/part2/kubernetes-dummy-api.png)
 
 Great ! What happens if we delete our redis-server and recreates it and then visit http://localhost:8082/ ?
