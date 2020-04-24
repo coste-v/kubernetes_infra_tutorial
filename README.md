@@ -26,6 +26,8 @@ For this tutorial, I'll assume that you have :
 
 - a local version of my code,
 
+- a fairly good understanding of Docker (images, containers, volumes, ports)
+
 - K9s as a nice to have (some of my screenshots will display this tool).See [here](https://github.com/derailed/k9s).
 
 To build this tutorial I used Docker Desktop 2.2.0.4. for Mac OS with its built in Kubernetes cluster.

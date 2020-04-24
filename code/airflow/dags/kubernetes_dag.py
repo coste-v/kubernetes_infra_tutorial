@@ -4,7 +4,6 @@ from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 
-
 dag = DAG(
     'kube_dag', 
     description='Simple DAG to trigger a POD',

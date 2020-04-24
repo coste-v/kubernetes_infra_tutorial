@@ -14,13 +14,13 @@ Let's deploy our dummy api on our cluster. As in Part1.md, we'll first need to b
 Let's go in the code/dummy_api folder and run the following command :
 
 ```bash
-docker build . -t dummy-api
+docker build . --build-arg app_version=1.0 -t dummy-api:1.0
 ```
 
 As always, let's test that everything works fine outside of the cluster :
 
 ```bash
-docker run -d -it -p 8082:3894 dummy-api
+docker run -d -it -p 8082:3894 dummy-api:1.0
 ```
 
 To check that everything is fine, let's go to : http://localhost:8082/
@@ -29,7 +29,7 @@ You should get the following :
 
 ![context](images/part2/local-dummy-api.png)
 
-Again, this is "normal". Let's see the python code :
+Again, this is "normal" locally because the redis server doesn't exists.
 
 If it's working fine, let's move on to our deployment ! First, let's have a look at our deployment file :
 
@@ -45,7 +45,7 @@ metadata:
 spec:
   containers:
     - name: dummy-api
-      image: dummy-api:latest
+      image: dummy-api:1.0
       imagePullPolicy: Never
 ```
 
@@ -195,6 +195,7 @@ spec:
   containers:
     - name: redis-server
       image: redis:alpine3.10
+      args: ["--appendonly", "yes"]
 
       volumeMounts:
         - mountPath: "/data"  # on the pod
@@ -232,11 +233,11 @@ kubectl delete pod redis-feeder
 kubectl apply -f kubernetes_files/part1/3_pod_feeder.yml
 ```
 
-At this stage, the http://localhost:8082/ should return the following :
+At this stage, the http://localhost:8081/ should return the following :
 
 ![dummy-service](images/part2/kubernetes-dummy-api.png)
 
-Great ! What happens if we delete our redis-server and recreates it and then visit http://localhost:8082/ ?
+Great ! What happens if we delete our redis-server and recreates it and then visit http://localhost:8081/ ?
 
 ```bash
 kubectl delete pod redis-server
@@ -251,6 +252,8 @@ Result:
 ![dummy-service](images/part2/kubernetes-dummy-api.png)
 
 ![magic](images/part2/magic.jpeg)
+
+***[PREVIOUS](Part1.md)*** | ***[NEXT](Part3.md)***
 
 ## D. References
 

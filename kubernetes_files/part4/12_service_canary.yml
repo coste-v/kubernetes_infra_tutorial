@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: dummy-canary-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8081  # From inside the cluster, what port does the service expose?
+    targetPort: 3894  # Which port do pods selected by this service expose?
+  selector:
+    app: api-label  # To select the containers
+    dummy-version: "2.0"  # To select the containers

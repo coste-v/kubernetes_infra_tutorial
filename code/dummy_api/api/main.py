@@ -1,14 +1,19 @@
 from flask import Flask, jsonify
 from redis import Redis
+import os
 
 app = Flask(__name__)
 redis = Redis(
     host="redis-service",  # Which host to find the redis-server
-    port=4321  # Which port to find the redis-server
+    port=4321,  # Which port to find the redis-server
+    decode_responses=True
 )
 
 @app.route("/")
-def say_hi():
+def describe_redis():
+
+    app_version = os.getenv("VERSION")
+
     try:
         first_name = redis.get("first-name")
         last_name = redis.get("last-name")
@@ -19,8 +24,9 @@ def say_hi():
         environment = "ERROR"
     
     return jsonify({
-        "first-name": f"{first_name}",
-        "last-name": f"{last_name}",
-        "environment": f"{environment}"
+        "app-version": app_version,
+        "first-name": first_name,
+        "last-name": last_name,
+        "environment": environment
     })
 

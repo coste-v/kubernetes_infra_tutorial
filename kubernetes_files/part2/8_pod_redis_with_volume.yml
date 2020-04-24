@@ -8,6 +8,7 @@ spec:
   containers:
     - name: redis-server
       image: redis:alpine3.10
+      args: ["--appendonly", "yes"]
 
       volumeMounts:
         - mountPath: "/data"  # on the pod

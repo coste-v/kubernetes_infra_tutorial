@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy-api-stable
+spec:
+  replicas: 3  # Number of Pods to be created
+  selector:
+    matchLabels:
+      dummy-version: "1.0"  # What label is our Deployment looking for
+  template:
+    metadata:
+      labels:
+        app: api-label  # First label of the Pod (the one used for the service)
+        dummy-version: "1.0"  # Second label of the Pod (the one used by the deployment)
+    spec:
+      containers:
+      - name: dummy-api
+        image: dummy-api:1.0
+        imagePullPolicy: Never
+        resources:  
+          requests:  #  For the horizontal pod autoscaling to work
+            cpu: 4m  # Each pods will have 25 m cpu to their disposal
+          limits:
+            cpu: 5m

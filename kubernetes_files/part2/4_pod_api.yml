@@ -7,5 +7,5 @@ metadata:
 spec:
   containers:
     - name: dummy-api
-      image: dummy-api:latest
+      image: dummy-api:1.0
       imagePullPolicy: Never

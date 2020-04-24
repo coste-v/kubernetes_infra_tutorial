@@ -110,6 +110,7 @@ Ok let's run the dag ! As Michal said :
 ![michal-karzynski-blog-picture](images/part3/hello-world-start.png)
 
 This is what you should get :
+
 ![kube-task](images/part3/kube-task.png)
 
 Now if you refresh our API http://localhost:8081/ you should see the values of our dag !
@@ -118,7 +119,13 @@ Now if you refresh our API http://localhost:8081/ you should see the values of o
 
 ![magic](images/part2/magic.jpeg)
 
-## C. References
+## C. Going a bit further (Volumes)
+
+Part to be continued
+
+***[PREVIOUS](Part2.md)***
+
+## D. References
 
 - [A great Airflow tutorial !](http://michal.karzynski.pl/blog/2017/03/19/developing-workflows-with-apache-airflow/)
 

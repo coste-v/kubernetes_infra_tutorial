@@ -107,8 +107,8 @@ Our first pod will run a redis server. Here is what the configuration file looks
 ```yml
 # kubernetes_files/part1/1_pod_redis.yml
 
-apiVersion: v1
-kind: Pod  # resource type (Pod, Service, Volume, ...) 
+apiVersion: v1  # Kubernetes api version
+kind: Pod  # resource type (Pod, Service, Volume, ...)
 metadata:
   name: redis-server
   labels:
@@ -119,7 +119,15 @@ spec:
       image: redis:alpine3.10
 ```
 
-Let's explain a bit this configuration ! This yaml file describe a Pod resource. Kubernetes with use the describtion provided by this file to create our Pod. Kubernetes expects the resource to have a name (redis-server). Optionnaly, we can give it some labels.
+Let's explain a bit this configuration ! This yaml file describe a Pod resource. A Pod is a resource available in Kubernetes apiVersion v1. Across this tutorial, you'll see different configuration files using different versions of Kubernetes api. To have a look at the api version available on our cluster, we can run the following command :
+
+```bash
+kubectl api-versions
+```
+
+Later on, we'll see how we can add some new api on our cluster ! But for now, let's focus on our Pod !
+
+Kubernetes will use the describtion provided by this file to create our Pod. Kubernetes expects the resource to have a name (redis-server). Optionnaly, we can give it some labels.
 
 Here, we chose to label our pod with an app label having the value "redis". Labels work like flags : by labelling resources with the same value we make Kubernetes administrate them coherently. This first label will be useful a little bit later, you'll see !
 
@@ -137,9 +145,14 @@ To see what happened, let's go on K9s:
 
 As expected, we can see that our redis server is up and running. We can interact with our Pod by getting a shell inside it:
 
+Using command line:
+
 ```bash
 kubectl exec -it redis-server -- /bin/sh
 ```
+
+Or directly in k9s by selecting the pod and pressing the "s" button (pure awesomeness !):
+![k9s-shell-functionnality](images/part1/k9s-shell-functionnality.png)
 
 Once inside our Pod let's run some simple redis command:
 
@@ -301,8 +314,15 @@ This time if you connect back to our redis-server, we can see that the values ar
 kubectl exec -it redis-server -- /bin/sh
 ```
 
+(or using k9s) :
+
 ![inside-redis-server2](images/part1/inside-redis-server2.png)
 
 Awesome ! We are now done for part 1 ! Let's move on to part 2 and try to consolidate our redis server !
 
-## C. Resources
+***[NEXT](Part2.md)***
+
+## C. References
+
+[K9s quick demo](https://www.youtube.com/watch?time_continue=83&v=k7zseUhaXeU&feature=emb_logo)
+
