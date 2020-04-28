@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations: 
+    kubernetes.io/ingress.class: nginx  # INFORMATION ONLY PURPOSES : we can delete annotations it doesn't matter 
+  name: app-ingress
+spec:
+  rules:
+  - host: canary.tutorial-api.com
+    http:
+      paths:
+      - backend:
+          serviceName: dummy-canary-service
+          servicePort: 8081
+  - host: tutorial-api.com
+    http:
+      paths:
+      - backend:
+          serviceName: dummy-stable-service
+          servicePort: 8081

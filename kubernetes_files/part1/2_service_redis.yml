@@ -3,8 +3,9 @@ kind: Service
 metadata:
   name: redis-service  # The host ! Same key in python
 spec:
+  type: ClusterIP # Default type : Service only reachable from within the cluster
   ports:
-  - port: 4321  # The port ! Same as in python
+  - port: 4321  # The service port expose by the service ! Same as in python
     targetPort: 6379 # The default redis port
   selector:
     app: redis  # Which pods are concerned

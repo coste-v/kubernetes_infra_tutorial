@@ -4,7 +4,7 @@
 
 ## Introduction
 
-In this tutorial we are going to build a very simple workflow on Kubernetes and automate it using Airflow. This workflow consists of :
+In this tutorial we are going to build a very simple workflow on Kubernetes and "automate" it using Airflow. This workflow consists of :
 
 - a **redis feeder** task, taking 2 arguments (first_name and last_name) and one environment variable (ENVIRONMENT) and pushing those values to a redis server
 
@@ -14,7 +14,7 @@ In this tutorial we are going to build a very simple workflow on Kubernetes and 
 
 We will slowly build this simple workflow on a local Kubernetes cluster. Once done, we'll use an external instance of Airflow running on a docker container **out of the kubernetes cluster** to trigger our redis feeder.
 
-If everything goes smoothly and works as I expect, we should get the following environment :
+If everything goes smoothly and works as I expect, we should get the following infrastructure :
 
 ![Expected Result](images/intro/expected-result.png)
 
@@ -26,13 +26,17 @@ For this tutorial, I'll assume that you have :
 
 - a local version of my code,
 
-- K9s as a nice to have (some of my screenshots will display this tool).See [here](https://github.com/derailed/k9s).
+- a fairly good understanding of Docker (images, containers, volumes, ports...), but do not fear, the Part0 of this tutorial will give you a quick refresher of Docker applied to our usecase
+
+- K9s as a nice to have (some of my screenshots will display this awesome tool).See [here](https://github.com/derailed/k9s).
 
 To build this tutorial I used Docker Desktop 2.2.0.4. for Mac OS with its built in Kubernetes cluster.
 
 ## Table of content
 
 The tutorial is organized in the following way :
+
+### [Part 0: quick refresher on how to use Docker](Part0.md)
 
 ### [Part 1: cluster setup, redis server and redis feeder](Part1.md)
 
@@ -42,4 +46,4 @@ The tutorial is organized in the following way :
 
 ### [Part 4: going further](Part4.md)
 
-Let's roll up our sleeves and build our cluster !
+In each part, I put some references if you want to dig further in the presented concepts. Now if you’re ready, let's roll up our sleeves and make this workflow happen !

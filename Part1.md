@@ -5,13 +5,13 @@
 - set up a testing context on our cluster
 - get familiar with kubectl command
 - understand Pods and Service
-- deploy local container on kubernetes
+- deploy local containers on kubernetes
 
 ## A. Cluster setup
 
 ### a) Discovering the cluster
 
-Docker desktop allows you to create a single node kubernetes cluster. Once your cluster is up and running, we can check its configuration using :
+Docker desktop allows you to create a single node kubernetes cluster. To start your local Kubernetes cluster, please follow this [very quick guide](https://www.techrepublic.com/article/how-to-add-kubernetes-support-to-docker-desktop/). Once your cluster up and running, we can check its configuration using :
 
 ```bash
 kubectl cluster-info
@@ -56,7 +56,7 @@ This should outputs :
 
 ![Get namespace](images/part1/get-namespace.png)
 
-And we can see that our tutorial-namespace has been created ! That's great !
+And we can see that our tutorial-namespace has been created !
 
 ### c) Context
 
@@ -82,15 +82,13 @@ Which outputs :
 
 ![context](images/part1/context.png)
 
-We can see our tutorial-context !
-
 Last but not least, we'll switch our current context to the one we just created. Let's see what is our current context :
 
 ```bash
 kubectl config current-context
 ```
 
-On docker-desktop, this should outputs "docker-desktop". Let's change our context to the one we just created:
+On docker-desktop, this should outputs "docker-desktop". Let's change our context to the one we just created :
 
 ```bash
 kubectl config use-context tutorial-context
@@ -100,15 +98,15 @@ Having done that, every time we'll run a kubectl command, it will apply it to ou
 
 ## B. Starting a redis server
 
-We'll now start our redis server. For the sake of comprehension, we'll run almost most of our resources using the Pod kind. A Pod is the atomic element in a kubernetes cluster and the simplest to understand. We'll move on more complicated concept later in our tutorial.
+We'll now start with our redis server. For the sake of comprehension, we'll run most of our resources using the Pod configuration. This is not always the easiest way to build resources but it helps understanding how things work in Kubernetes : a Pod is the atomic element in a kubernetes cluster and it’s the simplest to understand. We'll move to more complicated concept later in our tutorial.
 
 Our first pod will run a redis server. Here is what the configuration file looks like :
 
 ```yml
 # kubernetes_files/part1/1_pod_redis.yml
 
-apiVersion: v1
-kind: Pod  # resource type (Pod, Service, Volume, ...) 
+apiVersion: v1  # Kubernetes api version
+kind: Pod  # resource type (Pod, Service, Volume, ...)
 metadata:
   name: redis-server
   labels:
@@ -119,9 +117,17 @@ spec:
       image: redis:alpine3.10
 ```
 
-Let's explain a bit this configuration ! This yaml file describe a Pod resource. Kubernetes with use the describtion provided by this file to create our Pod. Kubernetes expects the resource to have a name (redis-server). Optionnaly, we can give it some labels.
+Let's explain a bit this configuration. This yaml file describe a Pod resource. A Pod is a resource available in Kubernetes apiVersion v1. Across this tutorial, you'll see different configuration files using different versions of Kubernetes api. To have a look at the api versions available on our cluster, we can run the following command :
 
-Here, we chose to label our pod with an app label having the value "redis". Labels work like flags : by labelling resources with the same value we make Kubernetes administrate them coherently. This first label will be useful a little bit later, you'll see !
+```bash
+kubectl api-versions
+```
+
+Later on, we'll see how we can add some new api on our cluster. But for now, let's focus on our Pod !
+
+Kubernetes will use the description provided by this file to create our Pod. Kubernetes expects the resource to have a name, here it is “redis-server” (for those of you who read the [Part 0](Part0.md) of the tutorial, this is not a typo). Optionally, we can give it some labels.
+
+Here, we chose to label our pod with an app label having the value "redis". Labels work like flags : by labelling resources with the same value we make sure that Kubernetes manages them coherently. This first label will be useful a little bit later, you'll see !
 
 Finally, we have some information about the containers we would like to run in our Pod. Here we are running a single container instantiating a redis:alpine3.10 image.
 
@@ -137,15 +143,22 @@ To see what happened, let's go on K9s:
 
 As expected, we can see that our redis server is up and running. We can interact with our Pod by getting a shell inside it:
 
+Using command line:
+
 ```bash
 kubectl exec -it redis-server -- /bin/sh
 ```
+
+Or directly in k9s by selecting the pod and pressing the "s" button (pure awesomeness !):
+![k9s-shell-functionnality](images/part1/k9s-shell-functionnality.png)
 
 Once inside our Pod let's run some simple redis command:
 
 ![inside-redis-server](images/part1/inside-redis-server.png)
 
-Awesome ! Everything seems to work as expected ! Next step : use the redis_feeder code to populate the redis database.
+Awesome ! Everything seems to work as expected ! Those of you who followed the [Part 0](Part0.md) might be a little bit confused (here by the port 6379 of our redis-cli). Please bare with me until I introduce the Service resource of Kubernetes.
+
+Next step : use the redis_feeder code to populate the redis database.
 
 ## C. The redis feeder
 
@@ -179,8 +192,8 @@ last_name = args.last_name
 environment = os.getenv("ENVIRONMENT", "dev")
 
 redis = Redis(
-    host="redis-service",  # Which host to find the redis-server
-    port=4321  # Which port to find the redis-server
+    host="redis-service",  # Host to find the redis-server.
+    port=4321,  # Port to find the redis-server
 )
 
 try:
@@ -219,11 +232,11 @@ spec:
   restartPolicy: OnFailure  # To avoid Kubernetes to keep the Pod retrying
 ```
 
-This resource is a bit different from our redis server one. We have :
+This resource is a bit different from our redis server. We have :
 
 - some arguments and an environment variable
 - set the imagePullPolicy to "Never". This allows us to use local image. Otherwise, kubernetes will try to find the redis feeder on Dockerhub and will fail (I didn't put this code on Dockerhub).
-- set the restartPolicy to "OnFailure". Kubernetes expect our Pod to be up and running. Otherwise, it tries to relaunch them. However our redis feeder is a task that dies once it has set some values in redis. We don't want to have Kubernetes retrying to launch this Pod.
+- set the restartPolicy to "OnFailure". Kubernetes expect our Pods to be up and running. Otherwise, it tries to relaunch them. However our redis feeder is a task that dies once it has set some values in redis. We don't want to have Kubernetes retrying to launch this Pod.
 
 Let's run the resource :
 
@@ -236,7 +249,7 @@ and see what happens on K9s :
 
 There is an error ! But what happened ? Let's figure out !
 
-We can press "Enter" key on K9s to navigate to the logs or use the kubectl command :
+We can either press the "Enter" key on K9s to navigate to the logs or use the kubectl command :
 
 ```bash
 kubectl logs redis-feeder
@@ -301,8 +314,15 @@ This time if you connect back to our redis-server, we can see that the values ar
 kubectl exec -it redis-server -- /bin/sh
 ```
 
+(or using k9s) :
+
 ![inside-redis-server2](images/part1/inside-redis-server2.png)
 
 Awesome ! We are now done for part 1 ! Let's move on to part 2 and try to consolidate our redis server !
 
-## C. Resources
+***[NEXT](Part2.md)***
+
+## C. References
+
+[K9s quick demo](https://www.youtube.com/watch?time_continue=83&v=k7zseUhaXeU&feature=emb_logo)
+
