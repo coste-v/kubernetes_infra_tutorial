@@ -1,6 +1,8 @@
 # Kubernetes hands on tutorial
 
-![Tutorial Use Case](images/intro/use-case.png)
+<div align="center">
+<img src="images/intro/use-case.png" >
+</div>
 
 ## Introduction
 
