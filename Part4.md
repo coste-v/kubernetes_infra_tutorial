@@ -2,14 +2,14 @@
 
 ## Objectives
 
-- understanding deployments
-- understanding the concept of canary deployments
-- understanding ingress resources
-- understanding horizontal autoscaling
+- understand deployments
+- understand the concept of canary deployments
+- understand ingress resources
+- understand horizontal autoscaling
 
 ## A. Deployments
 
-Until now, we only managed Pod : this was our order of magnitude. However, Kubernetes allows us to manage group of Pods.
+Until now, we only managed Pod. This was our unit of deployment. However, Kubernetes allows us to manage group of Pods.
 
 Let's say that we would like to deploy 3 containers with our dummy-api. By doing so, we can share the incoming traffic on 3 different Pods. We can achieve this with one resource: the deployment !
 
@@ -45,15 +45,15 @@ spec:
 There are 3 parts in this deployment resource :
 
 - the replicas: this is the number of Pod that we would like to have up and running with this deployment
-- the selector: wich Pods will be involved by the deployment
+- the selector: which Pods will be involved by the deployment
 - the template: how each Pods in the deployment should be built
 
-As you can see, the template looks very much like any Pod ressource. We built earlier. Here, we just added some extra notions about the Pods resources:
+As you can see, the template looks very much like any Pod ressource we built earlier. We just add some extra notions about the Pods resources:
 
 - requests: in this part, we specify how much cpu each Pod will get. It's important to understand that the Pod will get this amount of cpu even if it uses less.
 - limits: in this part, we specify the maximum cpu usage of each Pod. If it goes above, the cpu will be restricted to the limit.
 
-This will be usefull a bit later when we'll dig into horizontal auto scaling.
+This will be useful a bit later when we'll dig into horizontal auto scaling.
 
 Let's run this resource and have a look at our cluster :
 
@@ -77,7 +77,7 @@ As you'll realize, k9s is really a great tool to monitor our Kubernetes cluster.
 
 ## B. Canary deployment
 
-Let's say that we just added a cool new feature to our dummy-api and that we would like to put it in production. Our production cluster features 4 Pods of the old and very used release. In order to make things smooth and avoid a one shot full deployment on all of our Pods, we would like to have a small portion of our traffic (let's say 25%) going in the new release and the rest (75%) to the current release. This is what is called a canary deployment !
+Let's say that we’ve just added a cool new feature to our dummy-api and that we would like to put in to production. Our production cluster features 4 Pods of the old and very used release. In order to make things smooth and avoid a one shot full deployment on all of our Pods, we would like to have a small portion of our traffic (let's say 25%) going in the new release and the rest (75%) to the current release. This is a canary deployment : putting a new version of our app available to a small portion of our traffic.
 
 So let's do this. First things first, we'll build a new version of our dummy-api with an upgraded version :
 
@@ -148,16 +148,16 @@ for i in `seq 1 10`; do curl http://127.0.0.1:8081; done
 
 ![Canary result](images/part4/canary-deployment.png)
 
-Fantastic ! We have 75% of our traffic going to dummy-api v1.0 and 25% going to dummy-api 2.0 and let's face it: it's really awesome ! But what if we would like to test our dummy-api 2.0 only ? It would be frustrating to change apps during a testing period. Wouldn't it be also great to have a dedicated route targeting only our canary api ? Let's do that with an ingress rules !
+As you can see, we have roughly 75% of our traffic going to the dummy-api v1.0 and the rest going to the dummy-api v2.0 ! But what if we would like to be able to navigate only on our dummy-api v2.0 for testing purposes ? It would be frustrating to jump between app versions during a testing period. Wouldn't it be great to also have a dedicated route targeting only our canary api ? Let's do that with an ingress rules !
 
 ## C. Ingress rules
 
-So here is the master plan: we'll build 2 different http route that will target 2 different versions of our dummy-api. To do this we'll need :
+Here is the master plan: we'll build 2 different http routes that will target 2 different versions of our dummy-api. To do this we'll need :
 
-- a stable service : to access the stable version of our dummy-api
-- a canary service : to access the canary version of our dummy-api
+- a "stable" service : to access the stable version of our dummy-api
+- a "canary" service : to access the canary version of our dummy-api
 - an ingress controller (resource to install on our cluster)
-- an ingress : to control trafic rules
+- an ingress : to control traffic rules
 
 ### a. Building the services
 
@@ -237,7 +237,7 @@ helm delete tutorial-ingress-controller
 
 ### c. Implementing the ingress rules
 
-Now that we have our ingress controller installed, we can make an ingress resource. An ingress resource sits between the incoming trafic and your different services. Based on routes, it will redirect trafic on our stable service or our canary service. Let's have a look at the yml file to get a better understanding of how it works :
+Now that we have our ingress controller installed, we can make an ingress resource. An ingress resource sits between the incoming traffic and your different services. Based on routes, it will redirect traffic on our stable service or our canary service. Let's have a look at the yml file to get a better understanding of how it works :
 
 ```yml
 # kubernetes_files/part4/13_ingress.yml
@@ -279,7 +279,7 @@ Before testing, we need to edit our /etc/hosts file by adding the following line
 
 ![Hosts](images/part4/hosts.png)
 
-We can now go on our newly created urls to hit the canary deployment or the stable deployment !
+We can now go on our newly created urls to hit the canary deployment (http://canary.tutorial-api.com) or the stable deployment (http://tutorial-api.com) !
 
 ## D. Autoscaling
 
@@ -287,17 +287,17 @@ Last but not least, let's try to autoscale our dummy-api !
 
 ### a. Installing a metric server
 
-Usually, in production, we would run the following command against our kubernetes cluster :
+The first thing to do is to install a metric server on our local Kubernetes cluster. Usually, in production, we would run the following command against our kubernetes cluster :
 
 ```bash
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml
 ```
 
-However and for some reason I cannot really explain, the standard configuration won't work in our local cluster : the metric server will get installed but it won't display any metrics for our pods...
+However and for some reason I can't really explain, the standard configuration won't work in our local cluster : the metric server will get installed but it won't display any metrics for our pods...
 
 According to a stackoverflow post that I've linked in the reference below (thank you very much for the tips !), here is what we'll do.
 
-First let's clone the repository for the metric server :
+First let's clone the repository of the metric server :
 
 ```bash
 git clone git@github.com:kubernetes-sigs/metrics-server.git
@@ -314,7 +314,7 @@ containers:
       - --kubelet-insecure-tls  # line added !
 ```
 
-Then at the root folder of your cloned project, run the following command :
+Then at the root folder of the cloned project, run the following command :
 
 ```bash
 kubectl apply -f deploy/kubernetes
@@ -353,23 +353,23 @@ spec:
       targetAverageUtilization: 80  # if the pods of the deployment are using 80% of their requested cpus, scale !
 ```
 
-There are 3 pieces of key information here. The first two are the minReplicas and maxReplicas. This define our scaling strategy depending on the activity. Basically, we'll not scale below 1 Pod in case of low traffic and we won't get above 10 Pods in case of high traffic.
-The last piece of information is the targetAverageUtilization. This part can be a bit tricky to understand so let's give an explanation. Here, the value is expressed in percentage (to have it in absolute value, you can use targetAverageValue). It means that if the current pods are, on average, using 80% of their ressources, we need to add some. How many of them do we need to add ?
-To calculate this, we can have a look at the algorithm details supplied [here](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) :
+There are 3 pieces of key information here. The first two are the minReplicas and maxReplicas. This define our scaling strategy depending on the activity on our Pods. Basically, we'll not scale below 1 Pod in case of low traffic and we won't get above 10 Pods in case of high traffic.
+The last piece of information is the targetAverageUtilization. This part can be a bit tricky to understand so let's give an explanation. Here, the value is expressed in percentage (to have it in absolute value, you can use targetAverageValue). It means that if the currently deployed pods are, on average, using 80% of their resources, the autoscaler will add some. How many of them will it add ?
+To calculate this, we can have a look at the [algorithm details](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) :
 
 ```b
 desiredReplicas = ceil[currentReplicas * ( currentMetricValue / desiredMetricValue )]
 ```
 
-Let's take an example. We have 3 Pods in our Deployment. Let's assume that they use 25% of their ressources. Suddenly, we have a boost in our traffic that makes our Pods use 160% of their ressources on average. We need to scale up ! How much Pods do we need in total to deal with this peak of activity ?
+Let's take an example. We have 3 Pods in our Deployment. Let's assume that they use 25% of their resources. Suddenly, we have a boost in our traffic that makes our Pods use 160% of their resources on average. We need to scale up ! How many Pods do we need in total to deal with this peak of activity ?
 
 ```b
 ceil[3 * (160 / 80)] = 6 Pods
 ```
 
-As we have already 3 Pods up and running, the horizontal pod autoscaler will add an extra 3 to deal wit this situation.
+As we have already 3 Pods up and running, the horizontal pod autoscaler will add an extra 3 to deal with this situation.
 
-How do we know what are the resources used by our Pods ? We specified it in our deployment ! Remember ?
+How much resources are used by our Pods ? We specified it in our deployment ! Remember ?
 
 ```yml
     spec:
@@ -410,9 +410,9 @@ Every 30 seconds, the autoscaler will check the average resource usage of our de
 
 ## C. Conclusion / Next steps
 
-That's it for this tutorial. Hopefully, you found it usefull and get a better understanding on how Kubernetes work. As you can see, the configuration files can be a bit verbose and it's not always convenient to use them like that in a professionnal environment. A better way to do that is to consider helm and helm chart. Those tools allow you to package your configuration and to make them flexible. Doing so, you could run a single command and get the dummy-api, the service and the autoscaler up and running. You could also have different values for your different environnements (dev, staging, production). I will try to add a part on this.
+That's it for this tutorial. Hopefully, you found it useful and get a better understanding on how Kubernetes work. As you can see, the configuration files can be a bit verbose and it's not always convenient to use them as is in a professional environment. A better way to do that is to consider helm and helm chart. Those tools allow you to package your configuration and to make them flexible. Doing so, you could run a single command and get the dummy-api, the service and the autoscaler up and running. You could also parametrize your file for your different environnements (dev, staging, production). I will try to add a part on this later.
 
-Also, this tutorial is a bit light on Airflow. I'll definetly add some materials on this wonderful tool.
+Also, this tutorial is a bit light on Airflow. I'll definitely try to add some materials on this wonderful tool.
 
 Remember to clean your cluster ! If you're using docker desktop, you can restart your kubernetes cluster. You could also run the following command (namespace are awesome !) :
 
@@ -420,7 +420,7 @@ Remember to clean your cluster ! If you're using docker desktop, you can restart
 kubectl delete namespace tutorial-namespace
 ```
 
-Thank you very much for reading. Any feedbacks will be very welcome !
+Thank you very much for reading. Any feedbacks are very welcome !
 
 ## D. References
 

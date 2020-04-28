@@ -4,9 +4,9 @@ import os
 
 app = Flask(__name__)
 redis = Redis(
-    host="redis-service",  # Which host to find the redis-server
-    port=4321,  # Which port to find the redis-server
-    decode_responses=True
+    host="redis-service",  # Host to find the redis-server. Here, the host is a container name and not an IP address!
+    port=4321,  # Port to find the redis-server
+    decode_responses=True  # Boolean to avoid dealing with bytes instead of strings
 )
 
 @app.route("/")
