@@ -18,7 +18,9 @@ We will slowly build this simple workflow on a local Kubernetes cluster. Once do
 
 If everything goes smoothly and works as I expect, we should get the following infrastructure :
 
-![Expected Result](images/intro/expected-result.png)
+<div align="center">
+<img src="images/intro/expected-result.png" >
+</div>
 
 ## Prerequisite
 
