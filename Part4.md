@@ -422,6 +422,8 @@ kubectl delete namespace tutorial-namespace
 
 Thank you very much for reading. Any feedbacks are very welcome !
 
+***[Back to part 3](Part3.md)***
+
 ## D. References
 
 - [Canary deployments](https://medium.com/google-cloud/kubernetes-canary-deployments-for-mere-mortals-13728ce032fe)

@@ -117,7 +117,7 @@ Now if you refresh our API http://localhost:8081/ you should see the values of o
 
 ![magic](images/part2/magic.jpeg)
 
-***[PREVIOUS](Part2.md)***
+***[Back to part 2](Part2.md)*** | ***[Go to part 4](Part4.md)***
 
 ## C. References
 

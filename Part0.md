@@ -271,7 +271,7 @@ docker rm $(docker ps -a -q)
 docker rmi $(docker images -a -q)
 ```
 
-***[NEXT](Part1.md)***
+***[Go to part 1](Part1.md)***
 
 ## D. References
 

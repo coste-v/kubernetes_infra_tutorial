@@ -320,7 +320,7 @@ kubectl exec -it redis-server -- /bin/sh
 
 Awesome ! We are now done for part 1 ! Let's move on to part 2 and try to consolidate our redis server !
 
-***[NEXT](Part2.md)***
+***[Back to intro](Part0.md)*** | ***[Go to part 2](Part2.md)***
 
 ## C. References
 

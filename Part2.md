@@ -250,7 +250,7 @@ Result on http://localhost:8081 :
 
 ![magic](images/part2/magic.jpeg)
 
-***[PREVIOUS](Part1.md)*** | ***[NEXT](Part3.md)***
+***[Back to part 1](Part1.md)*** | ***[Go to part 3](Part3.md)***
 
 ## D. References
 
